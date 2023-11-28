@@ -1,6 +1,7 @@
 <Module xmlns="http://waher.se/Schema/ModuleManifest.xsd">
 	<Content fileName="MultiQR.config"/>
 	<Folder name="Root">
+		<Content fileName="MultiQR.js"/>
 		<Content fileName="MultiQR.md"/>
 	</Folder>
 </Module>

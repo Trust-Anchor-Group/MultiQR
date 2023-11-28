@@ -3,6 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34302.85
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF153EF8-192C-4AE6-8D09-71A21136489F}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		MultiQR.config = MultiQR.config
+		MultiQR.manifest = MultiQR.manifest
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{823E8C35-5406-4A36-B321-EA4AC549DEA7}"
+	ProjectSection(SolutionItems) = preProject
+		Root\MultiQR.md = Root\MultiQR.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

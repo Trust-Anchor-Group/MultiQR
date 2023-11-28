@@ -10,6 +10,7 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 			"Title": Str(Posted.Title),
 			"Description": Str(Posted.Description),
 			"Master": Str(Posted.Master),
+			"Scheme": Str(Posted.Scheme),
 			"Created": NowUtc,
 			"Links": []
 		};
@@ -26,6 +27,7 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 			"Title": "Multi-purpose QR-code",
 			"Description": "Displays a multi-purpose QR-code",
 			"Master": "/Master.md",
+			"Scheme": "",
 			"Created": null,
 			"Links": null
 		}
@@ -55,6 +57,10 @@ if !empty(MultiQrCode.Code) then
 
 ((MultiQrCode.Description))
 
+![This page](/QR/[[;
+	]]((Waher.IoTGateway.Gateway.GetUrl("/QR/"+UrlEncode("/MultiQR.md?Code="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme) ) ))[[;
+	]])
+
 [[
 )
 else
@@ -79,6 +85,21 @@ You can create your own Multi-purpose QR-code, by filling in the relevant inform
 <p>
 <label for="Master">Master file: (Local [Markdown](/Markdown.md) file responsible for displaying the QR-code. Change only if you want to customize page.)</label>  
 <input type="text" id="Master" name="Master" value="((MultiQrCode.Master))" required/>
+</p>
+
+<p>
+<label for="Scheme">Coloring scheme:</label>  
+<select name="Scheme" id="Scheme">
+<option value="">Normal</option>
+<option value="tagsign">Signature request</option>
+<option value="iotid">Legal ID</option>
+<option value="iotsc">Smart Contract</option>
+<option value="iotdisco">Device</option>
+<option value="edaler">eDaler(R)</option>
+<option value="nfeat">Neuro-Feature^TM token</option>
+<option value="obinfo">Onboarding information</option>
+<option value="aes256">Encrypted information</option>
+</select>
 </p>
 
 <input type="hidden" name="OnlyImage" value="false"/>

@@ -17,7 +17,10 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 
 		insert into MultiQr_Codes object MultiQrCode;
 
-		SeeOther("MultiQR.md?QR="+MultiQrCode.Code);
+		if Boolean(Posted.OnlyImage) then
+			SeeOther("/QR/"+UrlEncode(Waher.IoTGateway.Gateway.GetUrl(Request.Header.Resource+"?QR="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme)))
+		else
+			SeeOther(Request.Header.Resource+"?QR="+MultiQrCode.Code);
 	)
 	else
 	(
@@ -58,7 +61,7 @@ if !empty(MultiQrCode.Code) then
 ((MultiQrCode.Description))
 
 ![This page](/QR/[[;
-	]]((Waher.IoTGateway.Gateway.GetUrl("/QR/"+UrlEncode("/MultiQR.md?Code="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme) ) ))[[;
+	]]((UrlEncode(Waher.IoTGateway.Gateway.GetUrl(Request.Header.Resource+"?QR="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme) ) ))[[;
 	]])
 
 [[

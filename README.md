@@ -18,7 +18,7 @@ package using the following information:
 | Package information                                                                                                              ||
 |:-----------------|:---------------------------------------------------------------------------------------------------------------|
 | Package          | `TAG.MultiQR.package`                                                                                          |
-| Installation key | `lvjLkLgB9hZHQlMDefA0kKGyUz4wRdp/naej/k7NWoERjN1NomKIEWepmyBC4BV6PRQzuFDQ9x4Ace9537c7f09aef76f6b3efc53f0cf132` |
+| Installation key | `lOUZEY8IYlvFlZG/5w/cmlpUi+wf5AT/6bLFxeOBLLnkGb9JIalJX4DnrYlq+ptx1Q0IFMq72BKAad7686eccaa8c34bc092e2026b2619f3` |
 | More Information |                                                                                                                |
 
 ## Solution File

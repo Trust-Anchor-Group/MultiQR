@@ -4,34 +4,12 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 (
 	if exists(Posted) then
 	(
-		MultiQrCode:=
-		{
-			"Code": Base64UrlEncode(RandomBytes(32)),
-			"Title": Str(Posted.Title),
-			"Description": Str(Posted.Description),
-			"Master": Str(Posted.Master),
-			"Scheme": Str(Posted.Scheme),
-			"Created": NowUtc,
-			"Label1": Str(Posted.Label1),
-			"Text1": Str(Posted.Text1),
-			"Link1": Str(Posted.Link1)
-		};
-
-		k:=2;
-		while exists(Posted["Label"+(s:=Str(k))]) and exists(Posted["Text"+s]) and exists(Posted["Link"+s]) do
-		(
-			MultiQrCode["Label"+s]:=Posted["Label"+s];
-			MultiQrCode["Text"+s]:=Posted["Text"+s];
-			MultiQrCode["Link"+s]:=Posted["Link"+s];
-			k++
-		);
-
-		insert into MultiQr_Codes object MultiQrCode;
+		Links:=Global.CreateMultiQR(Posted,Request.Header.Resource);
 
 		if Boolean(Posted.OnlyImage) then
-			SeeOther("/QR/"+UrlEncode(Waher.IoTGateway.Gateway.GetUrl(Request.Header.Resource+"?QR="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme)))
+			SeeOther(Links.Image)
 		else
-			SeeOther(Request.Header.Resource+"?QR="+MultiQrCode.Code);
+			SeeOther(Links.Page);
 	)
 	else
 	(

@@ -74,10 +74,37 @@ if !empty(MultiQrCode.Code) then
 
 ((MarkdownEncode(MultiQrCode.Description) ))
 
+[[;
+
+	k:=1;
+	while (
+		!empty(Label:=MultiQrCode["Label"+(s:=Str(k++))]) and
+		!empty(Text:=MultiQrCode["Text"+s]) and
+		!empty(Link:=MultiQrCode["Link"+s])) do
+	(
+		]]((MarkdownEncode(Label) ))
+-----------------------------------------
+
+((MarkdownEncode(Text) ))
+
+<p><a href="((Link))" target="_blank">((MarkdownEncode(Link) ))</a></p>
+<a href="((Link))" target="_blank">
+
+![((MarkdownEncode(Label) ))](/QR/[[;
+	]]((UrlEncode(Link) ))[[;
+	]])
+
+</a>
+
+[[
+	);
+
+	]]This page
+-------------------
+
 ![This page](/QR/[[;
 	]]((UrlEncode(Waher.IoTGateway.Gateway.GetUrl(Request.Header.Resource+"?QR="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme) ) ))[[;
 	]])
-
 [[
 )
 else

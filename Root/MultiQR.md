@@ -64,7 +64,7 @@ Javascript: MultiQR.js
 
 ========================================================
 
-{{MarkownEncode8MultiQrCodeTitle)}}
+{{MarkdownEncode(MultiQrCode.Title)}}
 ======================================
 
 {{
@@ -73,8 +73,6 @@ if !empty(MultiQrCode.Code) then
 	]]
 
 ((MarkdownEncode(MultiQrCode.Description) ))
-
-	[[;
 
 ![This page](/QR/[[;
 	]]((UrlEncode(Waher.IoTGateway.Gateway.GetUrl(Request.Header.Resource+"?QR="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme) ) ))[[;

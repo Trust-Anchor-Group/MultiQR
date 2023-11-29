@@ -12,8 +12,19 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 			"Master": Str(Posted.Master),
 			"Scheme": Str(Posted.Scheme),
 			"Created": NowUtc,
-			"Links": []
+			"Label1": Str(Posted.Label1),
+			"Text1": Str(Posted.Text1),
+			"Link1": Str(Posted.Link1)
 		};
+
+		k:=2;
+		while exists(Posted["Label"+(s:=Str(k))]) and exists(Posted["Text"+s]) and exists(Posted["Link"+s]) do
+		(
+			MultiQrCode["Label"+s]:=Posted["Label"+s];
+			MultiQrCode["Text"+s]:=Posted["Text"+s];
+			MultiQrCode["Link"+s]:=Posted["Link"+s];
+			k++
+		);
 
 		insert into MultiQr_Codes object MultiQrCode;
 
@@ -32,7 +43,10 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 			"Master": "/Master.md",
 			"Scheme": "",
 			"Created": null,
-			"Links": null
+			"Links": null,
+			"Label1": "Link 1",
+			"Text1": "Description of Link 1",
+			"Link1": ""
 		}
 	)
 )
@@ -42,23 +56,25 @@ else
 	if !exists(MultiQrCode) then NotFound("Code not found.");
 );
 
-MultiQrCode.Title
+MarkdownEncode(MultiQrCode.Title)
 }}
-Description: {{MultiQrCode.Description}}
+Description: {{MarkdownEncode(MultiQrCode.Description)}}
 Master: {{MultiQrCode.Master}}
 Javascript: MultiQR.js
 
 ========================================================
 
-{{MultiQrCode.Title}}
-========================
+{{MarkownEncode8MultiQrCodeTitle)}}
+======================================
 
 {{
 if !empty(MultiQrCode.Code) then
 (
 	]]
 
-((MultiQrCode.Description))
+((MarkdownEncode(MultiQrCode.Description) ))
+
+	[[;
 
 ![This page](/QR/[[;
 	]]((UrlEncode(Waher.IoTGateway.Gateway.GetUrl(Request.Header.Resource+"?QR="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme) ) ))[[;
@@ -69,7 +85,8 @@ if !empty(MultiQrCode.Code) then
 else
 (
 	]]
-You can create your own Multi-purpose QR-code, by filling in the relevant information below, and press the `Create` button.
+You can create your own Multi-purpose QR-code, by filling in the relevant information below. You add links by pressing the *Add Link* button.
+When you have added all the links you require, press the *Create* button to create the multi-purpose QR-code.
 
 <form action="MultiQR.md" method="post" enctype="multipart/form-data">
 <fieldset>
@@ -107,6 +124,27 @@ You can create your own Multi-purpose QR-code, by filling in the relevant inform
 
 <input type="hidden" name="OnlyImage" value="false"/>
 
+<fieldset id="Link1">
+<legend>Link 1</legend>
+
+<p>
+<label for="Label1">Label:</label>  
+<input type="text" id="Label1" name="Label1" value="((MultiQrCode.Label1))" required/>
+</p>
+
+<p>
+<label for="Text1">Text:</label>  
+<input type="text" id="Text1" name="Text1" value="((MultiQrCode.Text1))" required/>
+</p>
+
+<p>
+<label for="Link1">Link:</label>  
+<input type="url" id="Link1" name="Link1" value="((MultiQrCode.Link1))" required/>
+</p>
+
+</fieldset>
+
+<button type="button" class="posButton" onclick="AddLink()">Add Link</button>
 <button type="submit" class="posButton">Create</button>
 
 </form>

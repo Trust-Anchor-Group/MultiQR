@@ -39,6 +39,7 @@ else
 		if exists(MultiQrCode.ExpiryDate) and Today>MultiQrCode.ExpiryDate then
 		(
 			DeleteObject(MultiQrCode);
+			Destroy(MultiQrCode);
 			
 			NotFound("Code was not found, or it has expired.");
 		);
@@ -48,6 +49,7 @@ else
 			if (--MultiQrCode.CountLimit)<0 then
 			(
 				DeleteObject(MultiQrCode);
+				Destroy(MultiQrCode);
 				NotFound("Code was not found, or it has expired.");
 			)
 			else

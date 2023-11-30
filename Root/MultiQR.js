@@ -74,4 +74,54 @@ function AddLink()
 	Input.setAttribute("name", "Link" + i);
 	Input.setAttribute("required", "required");
 	P.appendChild(Input);
+
+	P = document.createElement("P");
+	FieldSet.appendChild(P);
+
+	Input = document.createElement("INPUT");
+	Input.setAttribute("type", "checkbox");
+	Input.setAttribute("id", "MultiMedia" + i);
+	Input.setAttribute("name", "MultiMedia" + i);
+	P.appendChild(Input);
+
+	Label = document.createElement("LABEL");
+	Label.setAttribute("for", "MultieMedia" + i);
+	Label.innerText = "Embed as multi-media.";
+	P.appendChild(Label);
+
+	P = document.createElement("P");
+	FieldSet.appendChild(P);
+
+	Label = document.createElement("LABEL");
+	Label.setAttribute("for", "Width" + i);
+	Label.innerText = "Width: (Optional)";
+	P.appendChild(Label);
+
+	Br = document.createElement("BR");
+	P.appendChild(Br);
+
+	Input = document.createElement("INPUT");
+	Input.setAttribute("type", "number");
+	Input.setAttribute("min", "1");
+	Input.setAttribute("id", "Width" + i);
+	Input.setAttribute("name", "Width" + i);
+	P.appendChild(Input);
+
+	P = document.createElement("P");
+	FieldSet.appendChild(P);
+
+	Label = document.createElement("LABEL");
+	Label.setAttribute("for", "Height" + i);
+	Label.innerText = "Height: (Optional)";
+	P.appendChild(Label);
+
+	Br = document.createElement("BR");
+	P.appendChild(Br);
+
+	Input = document.createElement("INPUT");
+	Input.setAttribute("type", "number");
+	Input.setAttribute("min", "1");
+	Input.setAttribute("id", "Height" + i);
+	Input.setAttribute("name", "Height" + i);
+	P.appendChild(Input);
 }

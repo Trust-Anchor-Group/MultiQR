@@ -26,7 +26,10 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 			"CountCategory": null,
 			"Label1": "Link 1",
 			"Text1": "Description of Link 1",
-			"Link1": ""
+			"Link1": "",
+			"MultiMedia1": false,
+			"Width1": null,
+			"Height1": null
 		}
 	)
 )
@@ -94,6 +97,29 @@ if !empty(MultiQrCode.Code) then
 
 ((MarkdownEncode(Text) ))
 
+[[;
+
+		if exists(s2:=MultiQrCode["MultiMedia"+s]) and Boolean(s2) then
+		(
+			]]
+![((MarkdownEncode(Label) ))]([[;
+			]]((Link))[[;
+
+			if exists(s2:=MultiQrCode["Width"+s]) then
+			(
+				]] ((Number(s2) ))[[;
+
+				if exists(s2:=MultiQrCode["Height"+s]) then
+					]] ((Number(s2) ))[[;
+			);
+
+			]])
+
+[[
+		)
+		else
+		(
+			]]
 <p><a href="((Link))" target="_blank">((MarkdownEncode(Link) ))</a></p>
 <a href="((Link))" target="_blank">
 
@@ -104,6 +130,7 @@ if !empty(MultiQrCode.Code) then
 </a>
 
 [[
+		)
 	);
 
 	]]This page
@@ -187,6 +214,21 @@ When you have added all the links you require, press the *Create* button to crea
 <p>
 <label for="Link1">Link:</label>  
 <input type="url" id="Link1" name="Link1" value="((MultiQrCode.Link1))" required/>
+</p>
+
+<p>
+<input type="checkbox" id="MultiMedia1" name="MultiMedia1" (((MultiQrCode.MultiMedia1 ? "checked" : "") ??? ""))/>
+<label for="MultiMedia1">Embed as multi-media.</label>
+</p>
+
+<p>
+<label for="Width1">Width: (Optional)</label>  
+<input type="number" min="1" id="Width1" name="Width1" value="((MultiQrCode.Width1 ??? ""))"/>
+</p>
+
+<p>
+<label for="Height1">Height: (Optional)</label>  
+<input type="number" min="1" id="Height1" name="Height1" value="((MultiQrCode.Height1 ??? ""))"/>
 </p>
 
 </fieldset>

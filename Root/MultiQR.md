@@ -22,6 +22,7 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 			"Scheme": "",
 			"Created": null,
 			"ExpiryDate": null,
+			"CountLimit": null,
 			"Label1": "Link 1",
 			"Text1": "Description of Link 1",
 			"Link1": ""
@@ -30,19 +31,36 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 )
 else
 (
-	MultiQrCode:=select top 1 * from MultiQr_Codes where Code=QR;
-	if !exists(MultiQrCode) then NotFound("Code was not found, or it has expired.");
-
-	if exists(MultiQrCode.ExpiryDate) and Today>MultiQrCode.ExpiryDate then
+	if !exists(MultiQrCode) or MultiQrCode.Code!=QR then
 	(
-		DeleteObject(MultiQrCode);
-		NotFound("Code was not found, or it has expired.");
+		MultiQrCode:=select top 1 * from MultiQr_Codes where Code=QR;
+		if !exists(MultiQrCode) then NotFound("Code was not found, or it has expired.");
+
+		if exists(MultiQrCode.ExpiryDate) and Today>MultiQrCode.ExpiryDate then
+		(
+			DeleteObject(MultiQrCode);
+			
+			NotFound("Code was not found, or it has expired.");
+		);
+
+		if exists(MultiQrCode.CountLimit) then
+		(
+			if (--MultiQrCode.CountLimit)<0 then
+			(
+				DeleteObject(MultiQrCode);
+				NotFound("Code was not found, or it has expired.");
+			)
+			else
+				UpdateObject(MultiQrCode)
+		)
 	)
 );
 
-MarkdownEncode(MultiQrCode.Title)
+OneRow(s):=s.Replace('&','&amp;').Replace('<','&lt;').Replace('>','&gt;').Replace('\n',' ').Replace('\r',' ');
+
+OneRow(MultiQrCode.Title)
 }}
-Description: {{MarkdownEncode(MultiQrCode.Description)}}
+Description: {{OneRow(MultiQrCode.Description)}}
 Master: {{MultiQrCode.Master}}
 Javascript: MultiQR.js
 
@@ -134,6 +152,11 @@ When you have added all the links you require, press the *Create* button to crea
 <p>
 <label for="ExpiryDate">Expiry Date: (optional)</label>  
 <input type="date" id="ExpiryDate" name="ExpiryDate" value="((exists(MultiQrCode.ExpiryDate) ? MultiQrCode.ExpiryDate.ToShortDateString() : ''))"/>
+</p>
+
+<p>
+<label for="CountLimit">Usage limit: (optional)</label>  
+<input type="number" min="1" step="1" id="CountLimit" name="CountLimit" value="((exists(MultiQrCode.CountLimit) ? Str(MultiQrCode.CountLimit) : ''))"/>
 </p>
 
 <input type="hidden" name="OnlyImage" value="false"/>

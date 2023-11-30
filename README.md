@@ -19,7 +19,7 @@ package using the following information:
 |:-----------------|:---------------------------------------------------------------------------------------------------------------|
 | Package          | `TAG.MultiQR.package`                                                                                          |
 | Installation key | `lOUZEY8IYlvFlZG/5w/cmlpUi+wf5AT/6bLFxeOBLLnkGb9JIalJX4DnrYlq+ptx1Q0IFMq72BKAad7686eccaa8c34bc092e2026b2619f3` |
-| More Information |                                                                                                                |
+| More Information | https://lab.tagroot.io/Community/Post/Multi_Purpose_QR_codes                                                   |
 
 ## Solution File
 

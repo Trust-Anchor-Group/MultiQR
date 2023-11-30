@@ -21,7 +21,7 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 			"Master": "/Master.md",
 			"Scheme": "",
 			"Created": null,
-			"Links": null,
+			"ExpiryDate": null,
 			"Label1": "Link 1",
 			"Text1": "Description of Link 1",
 			"Link1": ""
@@ -31,7 +31,13 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 else
 (
 	MultiQrCode:=select top 1 * from MultiQr_Codes where Code=QR;
-	if !exists(MultiQrCode) then NotFound("Code not found.");
+	if !exists(MultiQrCode) then NotFound("Code was not found, or it has expired.");
+
+	if exists(MultiQrCode.ExpiryDate) and Today>MultiQrCode.ExpiryDate then
+	(
+		DeleteObject(MultiQrCode);
+		NotFound("Code was not found, or it has expired.");
+	)
 );
 
 MarkdownEncode(MultiQrCode.Title)
@@ -123,6 +129,11 @@ When you have added all the links you require, press the *Create* button to crea
 <option value="obinfo">Onboarding information</option>
 <option value="aes256">Encrypted information</option>
 </select>
+</p>
+
+<p>
+<label for="ExpiryDate">Expiry Date: (optional)</label>  
+<input type="date" id="ExpiryDate" name="ExpiryDate" value="((exists(MultiQrCode.ExpiryDate) ? MultiQrCode.ExpiryDate.ToShortDateString() : ''))"/>
 </p>
 
 <input type="hidden" name="OnlyImage" value="false"/>

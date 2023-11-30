@@ -23,6 +23,7 @@ if !Request.Header.TryGetQueryParameter("QR",QR) or empty(QR) then
 			"Created": null,
 			"ExpiryDate": null,
 			"CountLimit": null,
+			"CountCategory": null,
 			"Label1": "Link 1",
 			"Text1": "Description of Link 1",
 			"Link1": ""
@@ -54,7 +55,9 @@ else
 			)
 			else
 				UpdateObject(MultiQrCode)
-		)
+		);
+
+		if !empty(MultiQrCode.CountCategory) then IncCounter("MultiQR."+MultiQrCode.CountCategory);
 	)
 );
 
@@ -159,6 +162,11 @@ When you have added all the links you require, press the *Create* button to crea
 <p>
 <label for="CountLimit">Usage limit: (optional)</label>  
 <input type="number" min="1" step="1" id="CountLimit" name="CountLimit" value="((exists(MultiQrCode.CountLimit) ? Str(MultiQrCode.CountLimit) : ''))"/>
+</p>
+
+<p>
+<label for="CountCategory">Count Category: (optional)</label>  
+<input type="text" id="CountCategory" name="CountCategory" value="((exists(MultiQrCode.CountCategory) ? Str(MultiQrCode.CountCategory) : ''))"/>
 </p>
 
 <input type="hidden" name="OnlyImage" value="false"/>

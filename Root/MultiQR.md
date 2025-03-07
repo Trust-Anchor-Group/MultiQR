@@ -125,7 +125,7 @@ if !empty(MultiQrCode.Code) then
 
 ![((MarkdownEncode(Label) ))](/QR/[[;
 	]]((UrlEncode(Link) ))[[;
-	]])
+	]]?w=400&h=400&q=2 400 400)
 
 </a>
 
@@ -138,7 +138,7 @@ if !empty(MultiQrCode.Code) then
 
 ![This page](/QR/[[;
 	]]((UrlEncode(Waher.IoTGateway.Gateway.GetUrl(Request.Header.Resource+"?QR="+MultiQrCode.Code+"&Scheme="+MultiQrCode.Scheme) ) ))[[;
-	]])
+	]]?w=400&h=400&q=2 400 400)
 [[
 )
 else
